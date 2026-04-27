@@ -142,8 +142,9 @@ If you use this vocabulary in published work:
   title   = {{Task Ontology: A Substrate for Agent Evaluation}},
   year    = {2026},
   version = {0.1.1},
+  doi     = {10.5281/zenodo.19828487},
   url     = {https://github.com/0error-ob/task-ontology}
 }
 ```
 
-Machine-readable metadata: [CITATION.cff](./CITATION.cff)
+Machine-readable metadata: [CITATION.cff](./CITATION.cff) · DOI: [10.5281/zenodo.19828487](https://doi.org/10.5281/zenodo.19828487)
