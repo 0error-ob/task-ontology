@@ -114,6 +114,7 @@ This is not a critique of any particular benchmark. It is an observation about a
 
 ## How to read this repo
 
+- **Want to use it in 10 minutes?** [QUICKSTART.md](./QUICKSTART.md) — three diagnostic templates, with worked applications in [examples/](./examples/).
 - New here? Start with [PRIMITIVES.md](./PRIMITIVES.md) — the building blocks of any task description.
 - Want to know the axes? [DIMENSIONS.md](./DIMENSIONS.md) — the properties along which tasks vary.
 - Want concrete? [BENCHMARK-MAPS.md](./BENCHMARK-MAPS.md) and [CASE-STUDIES.md](./CASE-STUDIES.md).
