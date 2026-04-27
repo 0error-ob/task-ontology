@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this vocabulary in your research or writing, please cite using the metadata below."
+title: "Task Ontology: A Substrate for Agent Evaluation"
+authors:
+  - family-names: Chen
+    given-names: Caesar
+    alias: 0error-ob
+version: 0.1.0
+date-released: "2026-04-27"
+url: "https://github.com/0error-ob/task-ontology"
+repository-code: "https://github.com/0error-ob/task-ontology"
+license: MIT
+abstract: >
+  A vocabulary for describing how tasks are constructed, projected, and operationalized
+  in agent evaluation. Primitives, dimensions, and benchmark re-descriptions — not
+  algorithms, not a framework, not a leaderboard.
+keywords:
+  - agent evaluation
+  - task ontology
+  - AI benchmarks
+  - language model evaluation
+  - benchmark analysis
