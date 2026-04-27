@@ -129,3 +129,22 @@ This is not a critique of any particular benchmark. It is an observation about a
 > **Without a task ontology, agent evaluation collapses into leaderboard engineering.**
 
 > *You are not building another benchmark. You are defining the object that exists before the benchmark.*
+
+---
+
+## Cite
+
+If you use this vocabulary in published work:
+
+```bibtex
+@software{chen_2026_task_ontology,
+  author  = {Caesar Chen},
+  title   = {{Task Ontology: A Substrate for Agent Evaluation}},
+  year    = {2026},
+  version = {0.1.0},
+  doi     = {10.5281/zenodo.19827938},
+  url     = {https://github.com/0error-ob/task-ontology}
+}
+```
+
+Machine-readable metadata: [CITATION.cff](./CITATION.cff) · DOI: [10.5281/zenodo.19827938](https://doi.org/10.5281/zenodo.19827938)
