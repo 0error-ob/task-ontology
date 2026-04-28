@@ -18,21 +18,47 @@ It is not an algorithm, framework, SDK, or leaderboard.
 
 ---
 
-## Use it
+## Use cases
 
-- **Analyze a claim now:** [templates/claim-reading.md](./templates/claim-reading.md) — one template, seven fields.
-- **Start here:** [QUICKSTART.md](./QUICKSTART.md) — three diagnostic templates for benchmark, regression, and migration claims.
-- **See examples:** [examples/](./examples/) — benchmark claims, agent regression claims, model migration evals.
-- **Field notes:** [field-notes/](./field-notes/) — public evaluation claims read through this vocabulary.
-- **Read the full argument:** [MANIFESTO.md](./MANIFESTO.md).
+Use this repo when you need to:
+
+- turn an eval result into a defensible public claim
+- explain what a benchmark score does and does not show
+- compare two model results without overclaiming
+- write a model migration note for a specific workflow
+- review a leaderboard claim before citing it
+- prepare a release note, blog post, or README section involving eval results
 
 ---
 
-## Core vocabulary
+## Templates
 
+- [templates/claim-reading.md](./templates/claim-reading.md) — analyze a single public eval claim across seven fields.
+- [templates/migration-note.md](./templates/migration-note.md) — write a defensible model migration recommendation in cohort terms.
+- [QUICKSTART.md](./QUICKSTART.md) — three longer diagnostic templates: benchmark, agent regression, model migration.
+
+---
+
+## Examples
+
+- [examples/](./examples/) — worked applications: benchmark leaderboard claim, agent regression, model migration eval.
+
+---
+
+## Field notes
+
+- [field-notes/](./field-notes/) — public eval claims read through these templates as they surface.
+
+---
+
+## Vocabulary
+
+The vocabulary the templates use:
+
+- [MANIFESTO.md](./MANIFESTO.md) — the full argument.
 - [PRIMITIVES.md](./PRIMITIVES.md) — building blocks of a task.
 - [DIMENSIONS.md](./DIMENSIONS.md) — properties along which tasks vary.
-- [BENCHMARK-MAPS.md](./BENCHMARK-MAPS.md) — existing benchmarks re-described in this vocabulary.
+- [BENCHMARK-MAPS.md](./BENCHMARK-MAPS.md) — existing benchmarks re-described.
 - [CASE-STUDIES.md](./CASE-STUDIES.md) — additional worked applications.
 - [GLOSSARY.md](./GLOSSARY.md) — one-line term index.
 - [CONTRIBUTING.md](./CONTRIBUTING.md) — extension protocol and extractive constraint.
