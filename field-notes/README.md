@@ -6,7 +6,9 @@ Each note follows [templates/claim-reading.md](../templates/claim-reading.md) an
 
 Notes accumulate as relevant public claims surface. There is no posting schedule.
 
+Field notes are examples of claim readings. They are not verdicts on the artifact, benchmark, model, or project being discussed.
+
 ---
 
-- [001 — Saturation narrows inference](./001-saturation-narrows-inference.md)
-- [002 — Three causes of perceived regression](./002-three-causes-of-perceived-regression.md)
+- [001 — Saturation narrows inference](./001-saturation-narrows-inference.md) — How benchmark saturation changes what a leaderboard score can safely support.
+- [002 — Three causes of perceived regression](./002-three-causes-of-perceived-regression.md) — Why "the model got worse" is not yet an attribution claim.
