@@ -1,18 +1,18 @@
 # Task Ontology
 
-### A Substrate for Agent Evaluation
+### Reading AI Evaluation Claims
 
-> **Benchmarks do not merely measure tasks. They instantiate a theory of what a task is.**
+A vocabulary and template system for analyzing what public AI evaluation claims are actually allowed to support.
 
-> *Task definition is not neutral. It encodes the evaluator's theory of intelligence.*
+The core question: **What does this score actually license?**
 
 ---
 
 ## What this is
 
-Task Ontology is a vocabulary for describing how tasks are constructed, projected, and operationalized in agent evaluation.
+Most AI evaluation claims travel further than their artifacts warrant. A benchmark score is a property of a *(model, harness, prompt, oracle, sample distribution)* joint object — not a property of the model alone. A regression alert is a metric shift — not yet an attribution. A migration recommendation is an aggregate comparison — not a per-workflow guarantee.
 
-It provides primitives, dimensions, benchmark re-descriptions, and worked examples for asking: what kind of task has been constructed, what has been made observable, what has been hidden, and what does the scoring interface assume?
+This repo provides the vocabulary and templates for reading claims precisely: what task structure was actually measured, what the oracle could and could not see, which dimensions dominated the result, and where the inference breaks down.
 
 It is not an algorithm, framework, SDK, or leaderboard.
 
@@ -20,8 +20,10 @@ It is not an algorithm, framework, SDK, or leaderboard.
 
 ## Use it
 
-- **Start here:** [QUICKSTART.md](./QUICKSTART.md) — three diagnostic templates you can use in 10 minutes.
+- **Analyze a claim now:** [templates/claim-reading.md](./templates/claim-reading.md) — one template, seven fields.
+- **Start here:** [QUICKSTART.md](./QUICKSTART.md) — three diagnostic templates for benchmark, regression, and migration claims.
 - **See examples:** [examples/](./examples/) — benchmark claims, agent regression claims, model migration evals.
+- **Field notes:** [field-notes/](./field-notes/) — public evaluation claims read through this vocabulary.
 - **Read the full argument:** [MANIFESTO.md](./MANIFESTO.md).
 
 ---

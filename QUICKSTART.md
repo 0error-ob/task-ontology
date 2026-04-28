@@ -1,5 +1,7 @@
 # Use Task Ontology in 10 Minutes
 
+For a single-claim analysis, use [templates/claim-reading.md](./templates/claim-reading.md).
+
 This file turns the vocabulary in [PRIMITIVES.md](./PRIMITIVES.md) and [DIMENSIONS.md](./DIMENSIONS.md) into three diagnostic templates. Each template applies the same six questions to a different class of agent-evaluation claim.
 
 The questions are deliberately the same across templates. The point of an ontology is that the same lens fits multiple scenarios.
