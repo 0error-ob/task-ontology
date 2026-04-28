@@ -12,7 +12,7 @@ We apply [Template 1 — Benchmark claim](../QUICKSTART.md#template-1--benchmark
 
 ## 1. What task is being constructed?
 
-SWE-bench-Verified presents 500 verified issues from popular Python open-source repositories. The agent receives the issue text and the repository at a fixed commit; it must produce a patch that makes a specified test suite pass without breaking the tests that were already passing.
+SWE-bench-Verified is a human-validated subset of 500 SWE-bench instances drawn from popular Python open-source repositories. The agent receives the issue text and the repository at a fixed commit; it must produce a patch that passes the benchmark's designated validation tests while preserving expected behavior checked by the evaluation harness.
 
 The task object is: *given a failing test in a real codebase, locate the defect, understand it, produce a targeted patch, and verify it — within the constraints of the scaffold provided.*
 
