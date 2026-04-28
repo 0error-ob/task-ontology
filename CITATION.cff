@@ -7,10 +7,10 @@ authors:
     alias: 0error-ob
 version: 0.1.2
 date-released: "2026-04-27"
-doi: "10.5281/zenodo.19828487"
+doi: "10.5281/zenodo.19839872"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.19828487"
+    value: "10.5281/zenodo.19839872"
 url: "https://github.com/0error-ob/task-ontology"
 repository-code: "https://github.com/0error-ob/task-ontology"
 license: MIT
