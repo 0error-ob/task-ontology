@@ -31,6 +31,24 @@ Use this repo when you need to:
 
 ---
 
+## One-minute example
+
+**Claim:** Model A is better than Model B because it scores 93% vs 90% on Benchmark X.
+
+**Artifact:** Public leaderboard entry.
+
+**Task structure:** Fixed sample of single-shot tasks with frozen ground-truth answers.
+
+**Oracle:** Programmatic match against reference outputs.
+
+**Dominant dimensions:** Verification regime (oracle-rich, single-turn). Decomposition depth, ambiguity load, and irreversibility are absent.
+
+**Allowed inference:** Under this harness and oracle, Model A produced more reference-matching outputs than Model B on this fixed sample.
+
+**Unsupported inference:** Model A is generally better; Model A will outperform B in a multi-turn agent loop, a weak-oracle product workflow, or any setting where success is not reference-match.
+
+---
+
 ## Templates
 
 - [templates/claim-reading.md](./templates/claim-reading.md) — analyze a single public eval claim across seven fields.
