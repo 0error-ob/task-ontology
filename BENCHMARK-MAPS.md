@@ -1,10 +1,10 @@
 # Benchmark Maps
 
-This document re-describes existing agent benchmarks in the vocabulary of [PRIMITIVES.md](./PRIMITIVES.md) and [DIMENSIONS.md](./DIMENSIONS.md). The goal is not to critique these benchmarks. They are real artifacts that have moved the field. The goal is to make explicit *which task* each one projects, and what its leaderboard score does and does not measure.
+This document re-describes existing agent benchmarks in the vocabulary of [PRIMITIVES.md](./PRIMITIVES.md) and [DIMENSIONS.md](./DIMENSIONS.md). The goal is not to critique these benchmarks — they are real artifacts that have moved the field. The goal is to make explicit *which task* each one constructs, stated in terms that allow direct comparison across benchmarks and across task structures.
 
-A benchmark is a projection of a task under chosen interfaces. Two benchmarks targeting "the same capability" can project differently — and the projection determines which models win.
+A benchmark instantiates a task by fixing a set of primitives at specific values and a measurement interface. Re-describing it in this vocabulary makes the construction explicit.
 
-For each benchmark below: a primitives sketch, a dimensions sketch, and a paragraph on **what this re-description makes visible that the leaderboard view hides.**
+For each benchmark below: a primitives sketch, a dimensions sketch, and a note on **what the re-description makes visible that the benchmark name alone does not.**
 
 ---
 
@@ -18,18 +18,17 @@ A benchmark of real GitHub issues from popular Python repositories. The agent re
 |---|---|
 | Actor | LLM with tool-use loop (Read / Edit / Write / Grep / Bash) |
 | Goal | Held-out test suite passes; original passing tests still pass |
+| Transform type | Transformation (patch) composed with Extraction (locate change site) |
 | Initial state | Repo at fixed commit + issue text + failing tests |
 | Target state | Repo where the test suite is green |
 | Constraints | Token / time budget; usually no internet |
 | Tools | Shell, file ops, sometimes Python execution |
 | Environment | Actor-driven — only the agent modifies repo state |
 | Feedback | Test runner output, type-checker errors, file diffs |
-| Oracle | Fixed pre-authored test suite |
 | Cost | Tokens, tool calls |
 | Risk | Low (sandboxed) |
 | Time horizon | Typically 30–100 tool calls |
 | Decomposition | Deep — locate → understand → patch → test → verify |
-| Verification regime | Same as oracle (test suite) |
 
 **Dimensions sketch.**
 
@@ -37,7 +36,7 @@ A benchmark of real GitHub issues from popular Python repositories. The agent re
 |---|---|
 | Goal clarity | Explicit |
 | State observability | Partial (large repo, agent builds its own map) |
-| Oracle availability | Rich |
+| Determinism | Bounded stochastic (multiple valid patches accepted) |
 | Decomposition depth | Deep |
 | Tool dependence | Required |
 | Feedback latency | Delayed (often many edits per test cycle) |
@@ -49,7 +48,7 @@ A benchmark of real GitHub issues from popular Python repositories. The agent re
 | Coordination requirement | Solo |
 | Regression risk | Local |
 
-**What this re-description makes visible.** Pass rate is a single scalar that compresses at least four distinct task structures: locating the right code, understanding the failure, producing a minimal patch, and not breaking adjacent invariants. Two agents at the same pass rate may differ enormously on patch surface area, on number of files touched, on whether they fixed the symptom or the cause, and on whether they introduced regressions outside the held-out test suite. The benchmark's verification regime equals its oracle, so any failure mode visible only outside the test suite — maintainability collapse, hidden invariant violations, over-broad edits — is structurally invisible. The leaderboard does not lie; it just answers a narrower question than its name suggests.
+**What the re-description makes visible.** Pass rate compresses at least four distinct task structures: locating the right code (Extraction), understanding the failure (Classification), producing a minimal patch (Transformation), and not breaking adjacent invariants (Regression control). Two agents at the same pass rate may differ enormously on patch surface area, files touched, and whether they fixed the symptom or the cause. Failures outside the held-out test suite — maintainability collapse, hidden invariant violations, over-broad edits — are structurally invisible to the task as constructed. The benchmark answers a narrower question than its name implies.
 
 ---
 
@@ -63,17 +62,17 @@ A benchmark of "general AI assistant" questions requiring real-world reasoning, 
 |---|---|
 | Actor | LLM with tool-use (web search, browser, file readers, calculator) |
 | Goal | Emit a final-answer string matching the gold answer |
+| Transform type | Extraction-dominant for factual questions; Decision-dominant for multi-step reasoning |
 | Initial state | Question text, sometimes an accompanying file |
 | Target state | Emitted answer ≡ gold answer (after light normalization) |
+| Constraints | None explicit |
 | Tools | Search, browser, file parsing, calculator |
 | Environment | Exogenous — the live web |
-| Feedback | Tool outputs only; no in-task scoring |
-| Oracle | Exact-match against gold |
+| Feedback | Tool outputs only; no in-task scoring signal |
 | Cost | Tokens + wallclock for browsing |
 | Risk | Low |
 | Time horizon | Variable, often deep |
 | Decomposition | Shallow to deep depending on question |
-| Verification regime | Exact match |
 
 **Dimensions sketch.**
 
@@ -81,7 +80,7 @@ A benchmark of "general AI assistant" questions requiring real-world reasoning, 
 |---|---|
 | Goal clarity | Explicit |
 | State observability | Hidden (information lives on the web) |
-| Oracle availability | Rich |
+| Determinism | Fully deterministic (one gold answer) |
 | Decomposition depth | Variable |
 | Tool dependence | Required |
 | Feedback latency | Delayed |
@@ -93,7 +92,7 @@ A benchmark of "general AI assistant" questions requiring real-world reasoning, 
 | Coordination requirement | Solo |
 | Regression risk | None (single output) |
 
-**What this re-description makes visible.** GAIA scores conflate at least three distinct capabilities: reasoning, search-tool fluency, and resilience to the live web. Because the environment is exogenous and the source information can move or change, scores have non-trivial run-to-run variance that pass-rate alone does not surface. A weaker reasoner with better search habits can outperform a stronger reasoner with worse search habits, and the leaderboard cannot distinguish them. The exact-match oracle, while convenient, makes the benchmark allergic to legitimate paraphrase — answers that are *correct* but formatted differently fail. This makes GAIA a strong measure of one specific projection of "general assistant" capability, not of the capability itself.
+**What the re-description makes visible.** The benchmark conflates at least three distinct capabilities: reasoning (Decision), search-tool fluency (Extraction from the live web), and resilience to exogenous environment change. A weaker reasoner with better search habits can outperform a stronger reasoner with worse ones; the score cannot distinguish them. The exact-match success predicate makes the task allergic to legitimate paraphrase — correct answers formatted differently fail. This defines a narrower and more specific task than "general AI assistant ability."
 
 ---
 
@@ -107,17 +106,17 @@ A benchmark of agents playing customer-service roles that must resolve user issu
 |---|---|
 | Actor | LLM playing the agent role |
 | Goal | Resolve the user's issue subject to policy |
+| Transform type | Decision-dominant (select action under policy constraints) with Generation (compose response) |
 | Initial state | Persona prompt, policy document, user dialog seed |
 | Target state | Database state ≡ expected; policy violations = 0 |
 | Constraints | Policy rules (which actions are disallowed) |
 | Tools | Function calls (lookup, refund, cancel, etc.) |
 | Environment | Simulated user (LLM-driven) + tool side-effects on a mock DB |
 | Feedback | Tool returns and user dialog turns |
-| Oracle | Programmatic DB-state + policy-compliance check |
 | Cost | Tokens (both sides), turns |
+| Risk | Low (simulated) |
 | Time horizon | Tens of turns |
 | Decomposition | Shallow |
-| Verification regime | Programmatic |
 
 **Dimensions sketch.**
 
@@ -125,7 +124,7 @@ A benchmark of agents playing customer-service roles that must resolve user issu
 |---|---|
 | Goal clarity | Latent (multiple resolutions may satisfy the spec) |
 | State observability | Partial — user intent must be inferred from dialog |
-| Oracle availability | Rich (programmatic) |
+| Determinism | Bounded stochastic (multiple valid resolution paths) |
 | Decomposition depth | Shallow |
 | Tool dependence | Required |
 | Feedback latency | Immediate |
@@ -137,7 +136,7 @@ A benchmark of agents playing customer-service roles that must resolve user issu
 | Coordination requirement | Human-in-loop, simulated |
 | Regression risk | Local (policy violations) |
 
-**What this re-description makes visible.** τ-bench scores reflect not only the agent under test but the cooperation profile of the simulated user. Because the user is exogenous and stochastic, identical agent strategies face different conversational difficulty across runs — and that variance is rarely controlled in reported numbers. The benchmark is among the better instances of *latent* goal clarity and *medium* ambiguity load made evaluable; that is what makes it interesting. But comparing agent A's score to agent B's score without controlling for user-side variance compares two different distributions of difficulty, not two agent capabilities.
+**What the re-description makes visible.** Scores reflect not only the agent under test but the cooperation profile of the simulated user. Because the user is exogenous and stochastic, identical agent strategies face different conversational difficulty across runs. τ-bench is one of the better-constructed benchmarks for latent goal clarity and medium ambiguity load; the task it constructs is genuinely close to a real operational setting. Comparing two agents' scores without controlling for user-side variance compares two different difficulty distributions, not two agent configurations on the same task.
 
 ---
 
@@ -151,17 +150,17 @@ A benchmark in which agents complete real operating-system tasks (file managemen
 |---|---|
 | Actor | Agent with screen + keyboard + mouse tool surface |
 | Goal | Bring the OS / app state to a specified configuration |
+| Transform type | Transformation (state change via UI interaction) composed with Extraction (locate current state from screen) |
 | Initial state | VM snapshot with installed apps and starting file state |
 | Target state | File / app state matching the task spec |
+| Constraints | None explicit beyond the VM |
 | Tools | Screenshot, click, type, scroll, keyboard shortcuts |
 | Environment | Highly exogenous — async loading, popups, OS notifications |
 | Feedback | Screen state per step |
-| Oracle | Programmatic check on final VM state |
 | Cost | Wallclock-dominant (rendering, page loads) |
 | Risk | Costly within VM (state changes), reversible by snapshot |
 | Time horizon | Deep — many tens of steps for non-trivial tasks |
 | Decomposition | Deep |
-| Verification regime | Programmatic state-diff |
 
 **Dimensions sketch.**
 
@@ -169,7 +168,7 @@ A benchmark in which agents complete real operating-system tasks (file managemen
 |---|---|
 | Goal clarity | Explicit |
 | State observability | Partial — agent only sees the screen |
-| Oracle availability | Rich |
+| Determinism | Bounded stochastic (multiple valid action paths to the same end state) |
 | Decomposition depth | Deep |
 | Tool dependence | Required |
 | Feedback latency | Immediate |
@@ -181,12 +180,12 @@ A benchmark in which agents complete real operating-system tasks (file managemen
 | Coordination requirement | Solo |
 | Regression risk | Local |
 
-**What this re-description makes visible.** OSWorld scores are dominated by environment mutability and screen-grounding fidelity, not by reasoning. App version differences, screen-rendering jitter, and asynchronous popups produce variance that any single pass-rate number flattens. The benchmark is best understood as measuring *the joint distribution of agent capability and harness reliability under exogenous environment dynamics* — a different and more honest description than "OS task ability." The leaderboard implies the latter; the task ontology forces the former.
+**What the re-description makes visible.** Performance is dominated by environment mutability and screen-grounding fidelity rather than reasoning. App version differences, rendering jitter, and asynchronous popups produce variance that pass-rate flattens. The task as constructed measures the joint behavior of (agent capability, harness reliability, environment dynamics) — a more precise description than "OS task ability." Two agents with identical reasoning capabilities but different screen-grounding strategies will diverge substantially on this task.
 
 ---
 
 ## What this exercise is for
 
-When four benchmarks all claim to measure agent capability and yet rank models differently, the cause is usually not noise. It is that they are projecting different tasks. The vocabulary above lets us state what each is actually projecting — which is the prerequisite for any defensible comparison across them, or for any decision about which one to trust for a given product question.
+When benchmarks that all claim to measure "agent capability" rank models differently, the cause is not usually noise. It is that they construct different tasks. The vocabulary above lets us state what each one actually constructs — which is the prerequisite for any defensible comparison across benchmarks, or for any decision about which one to trust for a given question.
 
-Mapping a benchmark is roughly an afternoon's work once the vocabulary is fixed. Patterns and pull requests welcome (see [CONTRIBUTING.md](./CONTRIBUTING.md)).
+Mapping a benchmark is roughly an afternoon's work once the vocabulary is fixed. Patterns and pull requests welcome: see [CONTRIBUTING.md](./CONTRIBUTING.md).
