@@ -2,7 +2,7 @@
 
 The properties along which tasks vary. Where [PRIMITIVES.md](./PRIMITIVES.md) gives the parts a task is built from, this document gives the *axes* on which two tasks built from those parts can differ.
 
-A useful task description is not a category label ("coding," "dialog," "web") but a position in this space. The same primitive — say, *Oracle* — looks very different at high oracle availability (a comprehensive test suite) and at oracle absence (an open-ended research direction).
+A useful task description is not a category label ("coding," "dialog," "web") but a position in this space. The same primitive — say, *Feedback* — looks very different at high availability (an interactive shell) and at absence (a single-shot generation task with no in-trajectory signal).
 
 Each entry below carries: a definition, a **scale** for the dimension, an **instrumentation note** for how to measure it from real artifacts, and **three worked examples** in distinct task contexts. The three-example requirement is the [extractive constraint](./CONTRIBUTING.md): a dimension that does not vary across at least three real task settings is not a dimension yet.
 
@@ -38,18 +38,18 @@ Observability is a property of the task, not of the agent. Adding context-window
 
 ---
 
-## 3. Oracle availability
+## 3. Determinism
 
-**Scale.** Rich / poor / absent.
+**Scale.** Fully deterministic / bounded stochastic / open-ended.
 
-**Instrumentation.** Count of automated test cases per task; cost ratio of one verification to one trajectory.
+**Instrumentation.** Variance in valid target states given identical initial states; count of distinct correct outputs accepted by the success predicate.
 
 **Examples.**
-- *Code repair with a 50-test held-out suite*: **rich** — high-coverage, deterministic verification at near-zero marginal cost.
-- *Product design judged by rubric*: **poor** — humans must score; raters disagree; cost per verification is minutes.
-- *"Identify a research direction that will matter in five years"*: **absent** — there is no operationalizable oracle inside the task horizon.
+- *Arithmetic, format conversion, rule-based classification*: **fully deterministic** — one correct output, derivable by algorithm.
+- *Bug localization with multiple valid patches*: **bounded stochastic** — a finite set of acceptable solutions, none uniquely correct; the success predicate accepts any of them.
+- *Research synthesis, open-ended generation, long-horizon planning*: **open-ended** — the target state is an equivalence class with no enumerable boundary; correctness is contested or context-dependent.
 
-Oracle scarcity is the most common reason a task that looks tractable in principle becomes intractable to evaluate.
+Determinism is not a property of the agent's approach; it is a property of the task's target state. A task can be open-ended even when the agent treats it deterministically.
 
 ---
 
@@ -205,4 +205,4 @@ Regression risk is the dimension that makes a "passing" agent dangerous. It is w
 
 ## How dimensions compose
 
-Two tasks may share every primitive yet differ across these dimensions in ways that determine which agents win and which fail. Mapping a benchmark onto these dimensions is the work of [BENCHMARK-MAPS.md](./BENCHMARK-MAPS.md). Mapping an agent failure onto them is the work of [CASE-STUDIES.md](./CASE-STUDIES.md).
+Two tasks may share every primitive yet differ across these dimensions in ways that determine which agents succeed and which fail. A task description is complete when it specifies both primitive configuration and dimensional position. [BENCHMARK-MAPS.md](./BENCHMARK-MAPS.md) maps existing benchmarks onto this space. [CASE-STUDIES.md](./CASE-STUDIES.md) traces how dimensional differences produce behavioral differences in agents.

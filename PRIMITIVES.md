@@ -36,7 +36,32 @@ The gap between operational and intended goal is where most evaluation surprises
 
 ---
 
-## 3. Initial state
+## 3. Transform Type
+
+**Definition.** The class of operation the task requires the actor to perform — not the domain, but the operation itself.
+
+**Signature.** Visible in the success predicate and input-output contract of the harness: what is the actor being asked to *do* to the input in order to reach the target state?
+
+**Types.**
+- *Extraction*: locate and return information already present in the input state.
+- *Transformation*: convert input from one structure, format, or representation to another.
+- *Matching*: determine correspondence or alignment between two inputs.
+- *Classification*: assign a label or category to an input.
+- *Generation*: produce output not deterministically derivable from the input.
+- *Decision*: select among alternatives under explicit or implicit tradeoffs.
+
+Most real tasks are compositions of multiple types.
+
+**Examples.**
+- *SWE-bench-Verified*: primarily Transformation (patch the code) composed with Extraction (locate the relevant change site) and Classification (determine which test failures are relevant).
+- *GAIA*: Extraction-dominant for factual questions; Decision-dominant for multi-step reasoning with tradeoffs.
+- *Customer-support agent*: Decision-dominant (select response strategy under policy constraints) with Generation (compose the actual response).
+
+Transform Type is the most under-specified primitive in existing benchmark descriptions. Two tasks with identical Actors, Goals, and Constraints can require fundamentally different operations — and will surface different model capabilities.
+
+---
+
+## 4. Initial state
 
 **Definition.** What the actor inherits at t=0 — context, scratch, prior history, configured tools, environment snapshot.
 
@@ -51,7 +76,7 @@ Two harnesses with the same goal but different initial states are running differ
 
 ---
 
-## 4. Target state
+## 5. Target state
 
 **Definition.** The state that, when reached, satisfies the goal predicate. May be a unique state or an equivalence class.
 
@@ -66,7 +91,7 @@ When the target state is an equivalence class, the size of that class is itself 
 
 ---
 
-## 5. Constraints
+## 6. Constraints
 
 **Definition.** Rules and budgets that exclude regions of the action space — what the actor must obey, what it may not violate.
 
@@ -81,7 +106,7 @@ Constraints are part of the task definition, not external to it. Lifting a const
 
 ---
 
-## 6. Tools
+## 7. Tools
 
 **Definition.** Action affordances and their preconditions — what the actor can do, when, and at what cost.
 
@@ -96,7 +121,7 @@ The tool set is not background; it is part of the task.
 
 ---
 
-## 7. Environment
+## 8. Environment
 
 **Definition.** Everything that mutates outside the actor's deliberation — including stochastic responses, other agents, and the human user when the user is not the actor.
 
@@ -111,7 +136,7 @@ Environment mutability is one of the strongest predictors of evaluation noise.
 
 ---
 
-## 8. Feedback
+## 9. Feedback
 
 **Definition.** Signals returned to the actor during execution — distinct from terminal scoring.
 
@@ -119,25 +144,10 @@ Environment mutability is one of the strongest predictors of evaluation noise.
 
 **Examples.**
 - *Coding*: rich feedback — test runner stack traces, type-checker errors, lint warnings, file diffs.
-- *Single-shot QA*: zero in-trajectory feedback; only the terminal score.
+- *Single-shot QA*: zero in-trajectory feedback; only the terminal result.
 - *Negotiation or persuasion task*: feedback is encoded in the counterparty's responses — qualitatively rich, quantitatively sparse.
 
 Feedback shapes what the agent can learn *within* a trajectory; its absence is a task property, not an oversight.
-
----
-
-## 9. Oracle
-
-**Definition.** What determines correctness, when, and by what authority.
-
-**Signature.** Test suite; gold-answer string match; rubric scored by a second model; human grader; learned reward model; user-acceptance signal.
-
-**Examples.**
-- *Code with a comprehensive test suite*: oracle-rich. Cheap, fast, deterministic, narrow.
-- *Product-design rubric*: oracle-poor. Slow, contested between human reviewers, unstable across raters.
-- *Open-ended research*: oracle-absent. The "truth" of a research direction may not be settled for years; any in-task scoring is a stand-in.
-
-The oracle is often confused with the goal. They are different: the goal is *what success looks like*; the oracle is *how we decide whether success has happened*. A goal can be perfectly clear and still oracle-poor.
 
 ---
 
@@ -167,7 +177,7 @@ Cost is a first-class primitive because two trajectories with identical outcomes
 - *Production database migration*: high risk — a partial migration can corrupt state irrecoverably.
 - *Autonomous trade execution or external API call with side effects*: catastrophic risk — transactions are settled, emails are sent, and there is no undo.
 
-Risk is what separates "evaluable in a benchmark" from "deployable in production." Many tasks that look identical by goal differ enormously in risk.
+Risk is what separates "safe to benchmark" from "safe to deploy." Many tasks that look identical by goal differ enormously in risk.
 
 ---
 
@@ -182,7 +192,7 @@ Risk is what separates "evaluable in a benchmark" from "deployable in production
 - *Coding agent on SWE-bench*: typical horizon 30–100 tool calls, minutes of wallclock.
 - *Operational agent persisting across sessions*: horizon may extend across hours or days, with state-resumption challenges that do not exist in single-session benchmarks.
 
-Time horizon interacts with cost and verification: long-horizon tasks compound feedback latency and verification expense in ways short-horizon benchmarks cannot reveal.
+Time horizon interacts with cost and feedback: long-horizon tasks compound feedback latency in ways short-horizon tasks cannot reveal.
 
 ---
 
@@ -190,7 +200,7 @@ Time horizon interacts with cost and verification: long-horizon tasks compound f
 
 **Definition.** How the task naturally breaks into subtasks — or refuses to.
 
-**Signature.** Are subgoals explicit in the spec? Do intermediate sub-rewards exist? Can intermediate verification be performed without finishing? Are subtasks independent or sequentially dependent?
+**Signature.** Are subgoals explicit in the spec? Do intermediate checkpoints exist? Can partial progress be verified? Are subtasks independent or sequentially dependent?
 
 **Examples.**
 - *Bug fix in a real repo*: heavy decomposition — locate, understand, patch, test, verify, explain. Each sub-step is locally checkable.
@@ -201,23 +211,8 @@ Whether a task decomposes is not a property of the agent's strategy; it is a pro
 
 ---
 
-## 14. Verification regime
-
-**Definition.** Who or what re-checks the result, against what reference, at what cost.
-
-**Signature.** Auto-graders; second-opinion models; human reviewers; peer-review or staged-rollout protocols; downstream production telemetry.
-
-**Examples.**
-- *Test-suite verification*: cheap, fast, narrow — captures behavioral correctness, misses maintainability or regression risk.
-- *LLM-as-judge*: cheap, fast, broad in coverage — but introduces its own biases (length, formatting, paraphrase preferences) that become part of the task.
-- *Human expert review*: expensive, slow, unscalable — but most defensible against contested cases.
-
-The verification regime is often confused with the oracle. The oracle decides whether the answer is right *in principle*; the verification regime is *how we actually find out*. Agents that pass the oracle but fail the verification regime have not succeeded at the task.
-
----
-
 ## How these primitives compose
 
-A task description is a configuration of these 14 primitives. Many task differences that look like differences of *kind* (coding vs. dialog vs. web) turn out, on this account, to be differences of *configuration*. That is the load-bearing claim of this ontology: tasks are not categorical labels; they are points in a structured space.
+A task description is a configuration of these 13 primitives. Many task differences that look like differences of *kind* (coding vs. dialog vs. web) turn out, on this account, to be differences of *configuration*. That is the load-bearing claim of this ontology: tasks are not categorical labels; they are points in a structured space.
 
 The axes of that space are described in [DIMENSIONS.md](./DIMENSIONS.md).

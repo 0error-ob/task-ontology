@@ -1,6 +1,6 @@
 # Manifesto
 
-This document is the long-form argument behind Task Ontology. For immediate use, start with [QUICKSTART.md](./QUICKSTART.md).
+The long-form argument behind Task Ontology.
 
 ---
 
@@ -16,23 +16,24 @@ Those traditions answer *how to solve a task once it has been formalized.* This 
 
 ## A motivating example: what is a "coding task"?
 
-The phrase *"AI helps engineers write code"* names a real problem. But the moment we try to evaluate it, we have to cut. And how we cut determines almost everything that follows.
+The phrase *"AI helps engineers write code"* names a real problem. But the moment we try to instantiate it — as a product, a benchmark, a workflow — we have to cut. And how we cut determines almost everything that follows.
 
 The same underlying problem can be cut as:
 
-| Cut | What gets evaluated |
+| Cut | What the actor is actually asked to do |
 |---|---|
-| Coding benchmark | Does the patch pass the test suite? |
-| Debugging task | Can the agent localize and explain the root cause? |
-| Agent planning task | Does the agent decompose work into sound subgoals? |
-| Tool-use task | Does the agent select, sequence, and parameterize tools efficiently? |
-| Repo-navigation task | Can the agent build a working map of an unfamiliar codebase? |
-| Regression-control task | Does the patch avoid breaking invariants elsewhere? |
-| Human-AI collaboration task | Is the agent legible and steerable to a co-working developer? |
-| Cost-accuracy optimization | Does it succeed under a token / wallclock / dollar budget? |
-| Reliability-under-uncertainty | Does it recognize when it does not have enough information? |
+| Coding benchmark | Produce a patch that passes the test suite |
+| Debugging task | Localize and explain the root cause |
+| Agent planning task | Decompose work into sound subgoals |
+| Tool-use task | Select, sequence, and parameterize tools efficiently |
+| Repo-navigation task | Build a working map of an unfamiliar codebase |
+| Regression-control task | Avoid breaking invariants elsewhere |
+| Human-AI collaboration task | Remain legible and steerable to a co-working developer |
+| Cost-accuracy optimization | Succeed within a token / wallclock / dollar budget |
 
-Each cut yields a different benchmark, surfaces a different model preference, draws a different evaluation conclusion, and points to a different product direction. **The cut is the theory.** Most of the field debates models. Very little of the field debates the cut.
+Each cut is a different task. Not a different *version* of the same task — a structurally different object with a different Actor boundary, different Transform Type, different Feedback, different Risk profile. A model that excels at one cut may be mediocre at another. The label "coding" hides this entirely.
+
+**The cut is the theory.** Most of the field debates models. Very little of the field debates the cut.
 
 ---
 
@@ -40,60 +41,26 @@ Each cut yields a different benchmark, surfaces a different model preference, dr
 
 | Layer | Definition | Where it lives |
 |---|---|---|
-| **Surface** | Input → output → score. | Most current benchmarks. |
-| **Structural** | A state-transformation under constraints, with tools, oracle, feedback, decomposition. | Closer to real agent work. |
-| **Constructed** | The task as cut and framed by the modeler, harness designer, evaluator, observer. | Where observer bias, modeler priors, certainty-seeking, and framing residual operate. |
+| **Surface** | The problem as stated: input, instruction, expected output format. | Most task descriptions stop here. |
+| **Structural** | The actual transformation required: state-change under constraints, with tools, environment, feedback, decomposition. | Where agent behavior is actually determined. |
+| **Constructed** | The task as designed by its framer: boundary decisions, success criteria, observation rules, what gets left out. | Where the theory lives — often invisible to the agent and the evaluator alike. |
 
-A task ontology has to address all three. The surface layer is what we score; the structural layer is what we actually do; the constructed layer is what we cannot see when we are inside our own evaluation choices.
+A task ontology has to operate at all three layers. The surface is what you read; the structural is what you do; the constructed is the set of choices that made the surface look the way it does.
 
 ---
 
 ## Three claims
 
-**1. Tasks are constructed, not given.** No agent task arrives free of framing. A modeler chose where to draw the boundary, what counts as input, what the success signal is, what the actor is allowed to observe. Those choices are theory-laden, and they propagate downstream into every metric.
+**1. Tasks are constructed, not given.** No agent task arrives free of framing. A modeler chose where to draw the actor boundary, what counts as input, what the success signal is, what the agent is allowed to observe. Those choices are theory-laden and propagate downstream into every behavior the agent produces.
 
-**2. Benchmarks are projections of tasks under chosen interfaces, not measurements of intrinsic difficulty.** A benchmark fixes one cut and one interface. Two benchmarks targeting "the same" capability can diverge on which model wins, because they project the underlying task differently. Treating a leaderboard as a measurement of capability hides the projection.
+**2. Tasks are configurations, not categories.** Two tasks labeled "coding" or "analysis" may share a surface label while differing across every structural dimension: goal clarity, transform type, feedback availability, horizon, risk. The category label explains nothing about which agents succeed or why. The configuration does.
 
-**3. Agent failures are diagnostic of task structure, not just model capability.** When an agent fails, the failure has a structure: at the oracle, at decomposition, at tool selection, at context reconstruction, at verification. That structure is information about the task as much as about the agent. Pass-rate erases it.
-
----
-
-## The diagnostic gap
-
-Existing benchmarks rarely answer the questions that would explain their own results:
-
-1. Why do these problems form a *task family*?
-2. What are the boundaries of the task — what is in scope, what is out?
-3. What are the dominant *failure modes*, and what do they implicate?
-4. What cognitive or operational abilities does the task actually depend on?
-5. What is *observable* to the agent, and what has been hidden by interface choice?
-6. Is the score measuring capability, or is it measuring the joint product of model + harness + prompt + scaffold + oracle?
-7. What information is *lost* when the task is compressed into evaluable samples?
-
-A repo can answer those questions for a benchmark only if the underlying task object has been described. That is what this project provides.
-
----
-
-## The residual structure
-
-Five mirrors that show the gap from the other side:
-
-- We compare models without first defining the tasks the models are competing on.
-- We build benchmarks without stating the theory of task they project.
-- We discuss agent failure without attributing it to task structure.
-- We optimize harnesses without recognizing that the harness changes the task.
-- We pursue certainty when the task itself is an *ambiguity-bearing object*.
+**3. Agent behavior is a function of task structure.** When an agent succeeds or fails, the explanation is in the joint object of (agent, task structure) — not in agent capability alone. An agent that fails at a Generation task may succeed at the equivalent Extraction task. An agent that performs well in a low-risk, oracle-rich setting may behave entirely differently under high irreversibility and weak feedback. Task structure is not context; it is the independent variable.
 
 ---
 
 ## Positioning
 
-This is not a critique of any particular benchmark. It is an observation about a class of objects: tasks are treated as given, but they are the most under-explained object in agent evaluation. Naming them — primitives, dimensions, projections, distortions — is the first move that makes benchmark and harness choices auditable.
+This is not a critique of any particular benchmark or evaluation method. It is a claim about a class of objects: tasks are structurally rich objects that exist prior to any evaluation framework. Naming that structure — primitives, dimensions, configurations — is the precondition for reasoning clearly about what agents can and cannot do, and why.
 
----
-
-## Where this connects
-
-- **Research:** what is a task?
-- **Evaluation:** how do benchmarks instantiate tasks?
-- **Engineering:** how do agent systems behave differently across task structures?
+Evaluation is downstream of task definition. You cannot interpret a score without first knowing what task was actually constructed.
