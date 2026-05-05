@@ -1,91 +1,44 @@
 # Task Ontology
 
-### Reading AI Evaluation Claims
+### A Substrate for Agent Evaluation
 
-A vocabulary and template system for analyzing what public AI evaluation claims are actually allowed to support.
+> **Benchmarks do not merely measure tasks. They instantiate a theory of what a task is.**
 
-The core question: **What does this score actually license?**
+> *Task definition is not neutral. It encodes the evaluator's theory of intelligence.*
 
 ---
 
 ## What this is
 
-Most AI evaluation claims travel further than their artifacts warrant. A benchmark score is a property of a *(model, harness, prompt, oracle, sample distribution)* joint object — not a property of the model alone. A regression alert is a metric shift — not yet an attribution. A migration recommendation is an aggregate comparison — not a per-workflow guarantee.
+Task Ontology is a vocabulary for describing how tasks are constructed, projected, and operationalized in agent evaluation.
 
-This repo provides the vocabulary and templates for reading claims precisely: what task structure was actually measured, what the oracle could and could not see, which dimensions dominated the result, and where the inference breaks down.
+It provides primitives, dimensions, benchmark re-descriptions, and worked examples for asking: what kind of task has been constructed, what has been made observable, what has been hidden, and what does the scoring interface assume?
 
 It is not an algorithm, framework, SDK, or leaderboard.
 
 ---
 
-## Use cases
+## Apply it
 
-Use this repo when you need to:
-
-- turn an eval result into a defensible public claim
-- explain what a benchmark score does and does not show
-- compare two model results without overclaiming
-- write a model migration note for a specific workflow
-- review a leaderboard claim before citing it
-- prepare a release note, blog post, or README section involving eval results
+For templates, worked examples, and field notes — reading public eval claims through this vocabulary — see [eval-claim](https://github.com/0error-ob/eval-claim).
 
 ---
 
-## One-minute example
+## Core vocabulary
 
-**Claim:** Model A is better than Model B because it scores 93% vs 90% on Benchmark X.
-
-**Artifact:** Public leaderboard entry.
-
-**Task structure:** Fixed sample of single-shot tasks with frozen ground-truth answers.
-
-**Oracle:** Programmatic match against reference outputs.
-
-**Dominant dimensions:** Verification regime (oracle-rich, single-turn). Decomposition depth, ambiguity load, and irreversibility are absent.
-
-**Allowed inference:** Under this harness and oracle, Model A produced more reference-matching outputs than Model B on this fixed sample.
-
-**Unsupported inference:** Model A is generally better; Model A will outperform B in a multi-turn agent loop, a weak-oracle product workflow, or any setting where success is not reference-match.
-
----
-
-## Templates
-
-- [templates/claim-reading.md](./templates/claim-reading.md) — analyze a single public eval claim across seven fields.
-- [templates/migration-note.md](./templates/migration-note.md) — write a defensible model migration recommendation in cohort terms.
-- [QUICKSTART.md](./QUICKSTART.md) — three longer diagnostic templates: benchmark, agent regression, model migration.
-
----
-
-## Examples
-
-- [examples/](./examples/) — worked applications: benchmark leaderboard claim, agent regression, model migration eval.
-
----
-
-## Field notes
-
-- [field-notes/](./field-notes/) — public eval claims read through these templates as they surface.
-
----
-
-## Vocabulary
-
-The vocabulary the templates use:
-
-- [MANIFESTO.md](./MANIFESTO.md) — the full argument.
 - [PRIMITIVES.md](./PRIMITIVES.md) — building blocks of a task.
 - [DIMENSIONS.md](./DIMENSIONS.md) — properties along which tasks vary.
-- [BENCHMARK-MAPS.md](./BENCHMARK-MAPS.md) — existing benchmarks re-described.
+- [BENCHMARK-MAPS.md](./BENCHMARK-MAPS.md) — existing benchmarks re-described in this vocabulary.
 - [CASE-STUDIES.md](./CASE-STUDIES.md) — additional worked applications.
 - [GLOSSARY.md](./GLOSSARY.md) — one-line term index.
+- [MANIFESTO.md](./MANIFESTO.md) — the full argument.
 - [CONTRIBUTING.md](./CONTRIBUTING.md) — extension protocol and extractive constraint.
 
 ---
 
 ## Status
 
-**v0.1.2** — intentionally incomplete. This release adds a first-use path: QUICKSTART + three worked examples.
+**v0.1.2** — intentionally incomplete. The vocabulary is the release; applications live in eval-claim.
 
 > **Without a task ontology, agent evaluation collapses into leaderboard engineering.**
 
