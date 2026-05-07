@@ -35,6 +35,7 @@ One-line entries with cross-references into the source documents. Refresh by ext
 - **Verification hardness** — cheap / expensive / undecidable. → [DIMENSIONS §11](./DIMENSIONS.md#11-verification-hardness)
 - **Coordination requirement** — solo / human-in-loop / multi-agent. → [DIMENSIONS §12](./DIMENSIONS.md#12-coordination-requirement)
 - **Regression risk** — none / local / global. → [DIMENSIONS §13](./DIMENSIONS.md#13-regression-risk)
+- **Evidence surface** — spec-only / behavior-visible / test-visible / source-visible / privileged. → [DIMENSIONS §14](./DIMENSIONS.md#14-evidence-surface)
 
 ## Concepts
 

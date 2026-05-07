@@ -47,6 +47,7 @@ A benchmark of real GitHub issues from popular Python repositories. The agent re
 | Verification hardness | Cheap |
 | Coordination requirement | Solo |
 | Regression risk | Local |
+| Evidence surface | Test-visible (repo and some tests visible; held-out tests hidden) |
 
 **What the re-description makes visible.** Pass rate compresses at least four distinct task structures: locating the right code (Extraction), understanding the failure (Classification), producing a minimal patch (Transformation), and not breaking adjacent invariants (Regression control). Two agents at the same pass rate may differ enormously on patch surface area, files touched, and whether they fixed the symptom or the cause. Failures outside the held-out test suite — maintainability collapse, hidden invariant violations, over-broad edits — are structurally invisible to the task as constructed. The benchmark answers a narrower question than its name implies.
 
@@ -91,6 +92,7 @@ A benchmark of "general AI assistant" questions requiring real-world reasoning, 
 | Verification hardness | Cheap |
 | Coordination requirement | Solo |
 | Regression risk | None (single output) |
+| Evidence surface | Behavior-visible / web-visible (question and tool outputs visible; gold answer hidden) |
 
 **What the re-description makes visible.** The benchmark conflates at least three distinct capabilities: reasoning (Decision), search-tool fluency (Extraction from the live web), and resilience to exogenous environment change. A weaker reasoner with better search habits can outperform a stronger reasoner with worse ones; the score cannot distinguish them. The exact-match success predicate makes the task allergic to legitimate paraphrase — correct answers formatted differently fail. This defines a narrower and more specific task than "general AI assistant ability."
 
@@ -135,6 +137,7 @@ A benchmark of agents playing customer-service roles that must resolve user issu
 | Verification hardness | Cheap |
 | Coordination requirement | Human-in-loop, simulated |
 | Regression risk | Local (policy violations) |
+| Evidence surface | Spec-visible (policy and tool state visible; simulator internals hidden) |
 
 **What the re-description makes visible.** Scores reflect not only the agent under test but the cooperation profile of the simulated user. Because the user is exogenous and stochastic, identical agent strategies face different conversational difficulty across runs. τ-bench is one of the better-constructed benchmarks for latent goal clarity and medium ambiguity load; the task it constructs is genuinely close to a real operational setting. Comparing two agents' scores without controlling for user-side variance compares two different difficulty distributions, not two agent configurations on the same task.
 
@@ -179,6 +182,7 @@ A benchmark in which agents complete real operating-system tasks (file managemen
 | Verification hardness | Cheap |
 | Coordination requirement | Solo |
 | Regression risk | Local |
+| Evidence surface | Behavior-visible (screen state and app behavior visible; evaluator checks hidden) |
 
 **What the re-description makes visible.** Performance is dominated by environment mutability and screen-grounding fidelity rather than reasoning. App version differences, rendering jitter, and asynchronous popups produce variance that pass-rate flattens. The task as constructed measures the joint behavior of (agent capability, harness reliability, environment dynamics) — a more precise description than "OS task ability." Two agents with identical reasoning capabilities but different screen-grounding strategies will diverge substantially on this task.
 

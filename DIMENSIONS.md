@@ -203,6 +203,21 @@ Regression risk is the dimension that makes a "passing" agent dangerous. It is w
 
 ---
 
+## 14. Evidence surface
+
+**Scale.** Spec-only / behavior-visible / test-visible / source-visible / privileged.
+
+**Instrumentation.** List which evidence channels the actor may inspect before and during the run: task statement, documentation, executable behavior, visible tests, hidden-test feedback, source code, logs, traces, production data, or human demonstrations.
+
+**Examples.**
+- *Black-box CLI reproduction*: **behavior-visible** — the actor may read docs and run the target executable, but cannot inspect source code or the hidden tests. The task is largely specification discovery.
+- *Coding benchmark with public tests*: **test-visible** — the actor can inspect issue text, repo state, and some tests; hidden tests remain outside the evidence surface. The task is patching under partial oracle visibility.
+- *Reference implementation control*: **source-visible** — the actor may inspect or reuse the reference source. This is no longer the same task as a cleanroom reconstruction, even if the final executable is evaluated by the same harness.
+
+Evidence surface is distinct from state observability. State observability asks how much of the world-state required for success is visible. Evidence surface asks which *kinds of proof or guidance* the task permits the actor to use. Opening visible tests, source code, or production logs changes the task, not merely the convenience of solving it.
+
+---
+
 ## How dimensions compose
 
 Two tasks may share every primitive yet differ across these dimensions in ways that determine which agents succeed and which fail. A task description is complete when it specifies both primitive configuration and dimensional position. [BENCHMARK-MAPS.md](./BENCHMARK-MAPS.md) maps existing benchmarks onto this space. [CASE-STUDIES.md](./CASE-STUDIES.md) traces how dimensional differences produce behavioral differences in agents.

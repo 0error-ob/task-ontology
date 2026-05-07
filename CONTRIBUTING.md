@@ -74,7 +74,7 @@ A benchmark map PR adds an entry to `BENCHMARK-MAPS.md`. The entry must have:
 
 1. **One-paragraph description** of the benchmark — what it nominally measures, how scoring works.
 2. **Primitives table** — fill in each of the 14 primitives for this benchmark. If a primitive is "not applicable" or "trivial," say so explicitly; do not omit.
-3. **Dimensions table** — place the benchmark on each of the 13 dimensions. If a dimension's value is variable across the benchmark's tasks, give the modal position and note the variance.
+3. **Dimensions table** — place the benchmark on each dimension. If a dimension's value is variable across the benchmark's tasks, give the modal position and note the variance.
 4. **"What this re-description makes visible" paragraph** — one paragraph naming what the leaderboard view of this benchmark hides that the ontology view surfaces. Be specific; do not generalize.
 
 The aim is descriptive, not adversarial. A good benchmark map is a translation, not a critique.
